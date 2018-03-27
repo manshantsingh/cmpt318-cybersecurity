@@ -1,3 +1,5 @@
 *.csv
 temp/
 .DS_Store
+*.pickle
+*.txt
