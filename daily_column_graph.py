@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 
 combined = 'c' in sys.argv
 smoothed = 's' in sys.argv
+do_deviation = 'std' in sys.argv
 
 with open('train.pickle', 'rb') as handle:
     df = pickle.load(handle)
@@ -19,8 +20,10 @@ def func(x, d, legend, col, ax):
 	x = x[x.d.dt.weekday == d]
 	x['t'] = x.d.dt.hour * 60 + x.d.dt.minute
 	g = x.groupby(x.t)
-
-	m = g.mean().reset_index()
+	if do_deviation:
+		m = g.std().reset_index()
+	else:
+		m = g.mean().reset_index()
 	ax.plot(m.t/60, m[col])
 	legend.append(x.iloc[0].d.weekday_name)
 
@@ -28,12 +31,14 @@ def func(x, d, legend, col, ax):
 columns = ['Global_active_power', 'Global_reactive_power', 'Voltage',
 	       'Global_intensity', 'Sub_metering_1', 'Sub_metering_2',
 	       'Sub_metering_3']
+columns = ['Global_active_power']
 
 for col in columns:
+	title = 'daily '+col
 	if smoothed:
-		title = 'daily '+col+' (smoothed)'
-	else:
-		title = 'daily '+col
+		title += ' (smoothed)'
+	if do_deviation:
+		title += ' standard deviation'
 	plt.clf()
 	plt.cla()
 	plt.close()
