@@ -26,6 +26,23 @@
 
 
 
+# Spring runs from March 1 to May 31;
+# Summer runs from June 1 to August 31;
+# Fall (autumn) runs from September 1 to November 30; and
+# Winter runs from December 1 to February 28 (February 29 in a leap year)
+
+
+# Examples of Anomaly Detection Techniques Used for Anomaly Detection in Sensor Networks
+# Bayesian Networks 
+# Rule-Based Systems 
+# Parametric Statistical Modeling 
+# Nearest Neighbor-Based Techniques 
+# Spectral
+
+
+
+
+
 
 # Missing Values in Dataset
 # data.isnull().sum()

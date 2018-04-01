@@ -33,8 +33,12 @@ def score(m, a):
 	val = np.array(val)
 	return [val.mean(), val.std(), val.min(), val.max()]
 
+all_models = []
+
 def wow(n_components, n_folds=5, n_iter=50):
 	k = KFold(n_folds)
+
+	all_models.append([])
 
 	for a_ind, b_ind in k.split(arr):
 
@@ -54,6 +58,7 @@ def wow(n_components, n_folds=5, n_iter=50):
 
 		a = score(m,a_orig)
 		b = score(m,b_orig)
+		all_models[-1].append(m)
 		print("train(",len(a_orig),") vs test(",len(b_orig),")")
 		print("mean:    ", a[0], " vs ", b[0])
 		print("std:     ", a[1], " vs ", b[1])

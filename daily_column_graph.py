@@ -2,7 +2,7 @@ import sys
 import pickle
 import pandas as pd
 import matplotlib.pyplot as plt
-from hmmlearn import hmm
+# from hmmlearn import hmm
 from sklearn.model_selection import train_test_split
 
 combined = 'c' in sys.argv
