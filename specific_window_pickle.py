@@ -3,6 +3,7 @@ import pandas as pd
 
 def dump(variable, fileName):
 	with open(fileName+".pickle", 'wb') as handle:
+		print("var: ", len(variable), "\t\tfileName: ", fileName)
 		pickle.dump(variable, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 def summer_winter(fileName):
@@ -31,9 +32,9 @@ def split(s):
 	day = s[s.d.dt.hour < 12]
 	night = s[s.d.dt.hour >= 12]
 
-	def week_split(x):
-		weekend = x[x.d.dt.weekday >= 4]
-		weekday = x[x.d.dt.weekday < 4]
+	def week_split(x, weekend_start):
+		weekend = x[x.d.dt.weekday >= weekend_start]
+		weekday = x[x.d.dt.weekday < weekend_start]
 
 		def convert(q):
 			arr = []
@@ -50,8 +51,10 @@ def split(s):
 			return arr
 		return [convert(weekday), convert(weekend)]
 
-	day_split = week_split(day)
-	night_split = week_split(night)
+		# return [weekday, weekend]
+
+	day_split = week_split(day, weekend_start=5)
+	night_split = week_split(night, weekend_start=4)
 
 	return [day_split, night_split]
 

@@ -1,15 +1,22 @@
-import sys
+from sys import argv
 import pickle
 import pandas as pd
 import matplotlib.pyplot as plt
-# from hmmlearn import hmm
-from sklearn.model_selection import train_test_split
 
-combined = 'c' in sys.argv
-smoothed = 's' in sys.argv
-do_deviation = 'std' in sys.argv
 
-with open('train.pickle', 'rb') as handle:
+if len(argv)>1 and argv[1].endswith('.pickle'):
+	pickleFileName = argv[1]
+	combined=True
+else:
+	pickleFileName = 'train.pickle'
+	combined = 'c' in argv
+
+smoothed = 's' in argv
+do_deviation = 'std' in argv
+
+titlePrefix = pickleFileName[:-len('.pickle')]
+
+with open(pickleFileName, 'rb') as handle:
     df = pickle.load(handle)
 
 if smoothed:
@@ -34,7 +41,7 @@ columns = ['Global_active_power', 'Global_reactive_power', 'Voltage',
 columns = ['Global_active_power']
 
 for col in columns:
-	title = 'daily '+col
+	title = titlePrefix + ' '+col
 	if smoothed:
 		title += ' (smoothed)'
 	if do_deviation:
