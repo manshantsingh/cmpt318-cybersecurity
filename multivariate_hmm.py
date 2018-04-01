@@ -1,3 +1,4 @@
+import sys
 import pickle
 import numpy as np
 import pandas as pd
@@ -10,19 +11,23 @@ import warnings
 # warnings.filterwarnings(action='once')
 warnings.filterwarnings(action='ignore')
 
+if len(sys.argv) > 1:
+	current_file_in_use = sys.argv[1]
+else:
+	current_file_in_use = 'train-friday_night.pickle'
+print("using pickle file:", current_file_in_use)
+
 # change me
 columns_to_use = ['Global_active_power', 'Global_reactive_power', 'Voltage',
 			       'Global_intensity', 'Sub_metering_1', 'Sub_metering_2',
 			       'Sub_metering_3']
 
-with open('train-friday_night.pickle', 'rb') as handle:
+with open(current_file_in_use, 'rb') as handle:
     x = pickle.load(handle)
 
 arr = []
 for a in x:
-	v = a.set_index(['d'])[columns_to_use].dropna().values
-	if len(v) == 1440:
-		arr.append(v[1080:])
+	arr.append(a.set_index(['d'])[columns_to_use].values)
 
 arr = np.array(arr, dtype=np.float64)
 
@@ -31,12 +36,12 @@ def score(m, a):
 	for v in a:
 		val.append(m.score(v))
 	val = np.array(val)
-	return [val.mean(), val.std(), val.min(), val.max()]
+	return [val.mean(), np.median(val), val.std(), val.min(), val.max()]
 
 all_models = []
 
 def wow(n_components, n_folds=5, n_iter=50):
-	k = KFold(n_folds)
+	k = KFold(n_splits=n_folds, shuffle=True)
 
 	all_models.append([])
 
@@ -58,9 +63,14 @@ def wow(n_components, n_folds=5, n_iter=50):
 
 		a = score(m,a_orig)
 		b = score(m,b_orig)
-		all_models[-1].append(m)
 		print("train(",len(a_orig),") vs test(",len(b_orig),")")
 		print("mean:    ", a[0], " vs ", b[0])
-		print("std:     ", a[1], " vs ", b[1])
-		print("min:     ", a[2], " vs ", b[2])
-		print("max:     ", a[3], " vs ", b[3])
+		print("median:  ", a[1], " vs ", b[1])
+		print("std:     ", a[2], " vs ", b[2])
+		print("min:     ", a[3], " vs ", b[3])
+		print("max:     ", a[4], " vs ", b[4])
+		all_models[-1].append((m,a,b))
+
+def dump(fileName, variable):
+	with open(fileName+".pickle", 'wb') as handle:
+		pickle.dump(variable, handle, protocol=pickle.HIGHEST_PROTOCOL)
