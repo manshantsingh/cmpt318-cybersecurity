@@ -12,9 +12,6 @@ print("using pickle file:", current_file_in_use)
 with open(current_file_in_use, 'rb') as handle:
     x = pickle.load(handle)
 
-if len(sys.argv) > 2 and sys.argv[2]=='m':
-	x = np.array(x)
-
 def p(t):
 	m,a,b = t
 	print("model:", m)
