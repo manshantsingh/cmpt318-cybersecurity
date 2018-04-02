@@ -1,6 +1,8 @@
 import pickle
 import pandas as pd
 
+SQUASH_SIZE = 1
+
 def dump(variable, fileName):
 	with open(fileName+".pickle", 'wb') as handle:
 		print("var: ", len(variable), "\t\tfileName: ", fileName)
@@ -47,6 +49,9 @@ def split(s):
 				if values.min() != max_val and values.max() != max_val:
 					continue
 				a.d += offset
+				a = a.set_index(['d'])
+				# a['m']= a.d.dt.hour*(60//SQUASH_SIZE) + a.d.dt.minute//SQUASH_SIZE
+				# a = a.groupby(a.m).mean().reset_index()
 				arr.append(a)
 			return arr
 		return [convert(weekday), convert(weekend)]

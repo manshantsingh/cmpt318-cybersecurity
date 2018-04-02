@@ -8,6 +8,7 @@ if len(argv)>1 and argv[1].endswith('.pickle'):
 else:
 	pickleFileName = 'test.pickle'
 
+g = df.groupby(df.d.dt.date)
 arr = []
 for a in g:
 	arr.append(a[1])

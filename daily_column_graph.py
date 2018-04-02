@@ -20,7 +20,8 @@ with open(pickleFileName, 'rb') as handle:
     df = pickle.load(handle)
 
 if smoothed:
-	df = df.set_index('d').rolling(7).mean().dropna(0).reset_index()
+	df = df[(df.d.dt.month > 3) & (df.d.dt.month < 10)]
+	df = df.set_index('d').rolling(15).mean().dropna(0).reset_index()
 	# df = df.set_index('d').rolling('1h', min_periods=60).mean().dropna(0).reset_index()
 
 def func(x, d, legend, col, ax):
@@ -33,14 +34,18 @@ def func(x, d, legend, col, ax):
 		m = g.std().reset_index()
 	else:
 		m = g.mean().reset_index()
+
+	m['o'] = m.t//30
+	m=m.groupby(m.o).mean()
+
 	ax.plot(m.t/60, m[col])
 	legend.append(x.iloc[0].d.weekday_name)
 
 
-columns = ['Global_active_power', 'Global_reactive_power', 'Voltage',
-	       'Global_intensity', 'Sub_metering_1', 'Sub_metering_2',
-	       'Sub_metering_3']
-# columns = ['Voltage']
+# columns = ['Global_active_power', 'Global_reactive_power', 'Voltage',
+# 	       'Global_intensity', 'Sub_metering_1', 'Sub_metering_2',
+# 	       'Sub_metering_3']
+columns = ['Voltage']
 
 for col in columns:
 	title = titlePrefix + ' '+col
