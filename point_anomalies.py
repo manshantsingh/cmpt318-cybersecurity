@@ -23,9 +23,14 @@ columns = ['Global_active_power', 'Global_reactive_power', 'Voltage',
        		'Sub_metering_3']
 
 for col in columns:
-	f.a = (f.a) | (f.a.notnull() &
-			(f[col] < f[col + '_min']) | (f[col] > f[col + '_max']))
+	cmin = col + '_min'
+	cmax = col + '_max'
+	f.a = f.a | (f[col].notnull() & f[cmin].notnull() & f[cmax].notnull() &
+			(f[col] < f[cmin]) | (f[col] > f[cmax]))
 
 a = f[f.a == True][columns]
+
+print("percentage: ",100*len(a)/len(test),"%")
+print("number of anomalies: ", len(a))
 
 a.to_csv('point_anomalies.csv', index=False, encoding='utf-8')
