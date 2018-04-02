@@ -73,7 +73,9 @@ def wow(n_components, n_folds=5, n_iter=50):
 		print("max:     ", a[4], " vs ", b[4])
 		all_models[-1].append((m,a,b))
 
-def dump(fileName, variable=np.array(all_models)):
+def dump(fileName, variable):
 	with open(fileName+"-"+current_file_in_use+".pickle", 'wb') as handle:
 		pickle.dump(variable, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+def dump(fileName):
+	dump(fileName, np.array(all_models))

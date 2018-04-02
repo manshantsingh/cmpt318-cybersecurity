@@ -13,6 +13,7 @@ else:
 
 smoothed = 's' in argv
 do_deviation = 'std' in argv
+do_median  = 'median' in argv
 
 titlePrefix = pickleFileName[:-len('.pickle')]
 
@@ -27,7 +28,9 @@ def func(x, d, legend, col, ax):
 	x = x[x.d.dt.weekday == d]
 	x['t'] = x.d.dt.hour * 60 + x.d.dt.minute
 	g = x.groupby(x.t)
-	if do_deviation:
+	if do_median:
+		m = g.median().reset_index()
+	elif do_deviation:
 		m = g.std().reset_index()
 	else:
 		m = g.mean().reset_index()
@@ -38,13 +41,15 @@ def func(x, d, legend, col, ax):
 columns = ['Global_active_power', 'Global_reactive_power', 'Voltage',
 	       'Global_intensity', 'Sub_metering_1', 'Sub_metering_2',
 	       'Sub_metering_3']
-columns = ['Global_active_power']
+# columns = ['Global_active_power']
 
 for col in columns:
 	title = titlePrefix + ' '+col
 	if smoothed:
 		title += ' (smoothed)'
-	if do_deviation:
+	if do_median:
+		title += ' median'
+	elif do_deviation:
 		title += ' standard deviation'
 	plt.clf()
 	plt.cla()
