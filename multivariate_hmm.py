@@ -18,9 +18,11 @@ else:
 print("using pickle file:", current_file_in_use)
 
 # change me
-columns_to_use = ['Global_active_power', 'Global_reactive_power', 'Voltage',
-			       'Global_intensity', 'Sub_metering_1', 'Sub_metering_2',
-			       'Sub_metering_3']
+# columns_to_use = ['Global_active_power', 'Global_reactive_power', 'Voltage',
+# 			       'Global_intensity', 'Sub_metering_1', 'Sub_metering_2',
+# 			       'Sub_metering_3']
+
+columns_to_use = ['Global_active_power']
 
 with open(current_file_in_use, 'rb') as handle:
     x = pickle.load(handle)
