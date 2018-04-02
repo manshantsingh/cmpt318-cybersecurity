@@ -6,11 +6,10 @@ import matplotlib.pyplot as plt
 
 if len(argv)>1 and argv[1].endswith('.pickle'):
 	pickleFileName = argv[1]
-	combined=True
 else:
 	pickleFileName = 'train.pickle'
-	combined = 'c' in argv
 
+combined = 'c' in argv
 smoothed = 's' in argv
 do_deviation = 'std' in argv
 do_median  = 'median' in argv
@@ -41,7 +40,7 @@ def func(x, d, legend, col, ax):
 columns = ['Global_active_power', 'Global_reactive_power', 'Voltage',
 	       'Global_intensity', 'Sub_metering_1', 'Sub_metering_2',
 	       'Sub_metering_3']
-# columns = ['Global_active_power']
+# columns = ['Voltage']
 
 for col in columns:
 	title = titlePrefix + ' '+col
