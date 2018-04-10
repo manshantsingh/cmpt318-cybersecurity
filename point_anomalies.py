@@ -1,5 +1,6 @@
 import pickle
 import pandas as pd
+import matplotlib.pyplot as plt
 
 with open('train.pickle', 'rb') as handle:
     train = pickle.load(handle)
@@ -33,4 +34,6 @@ a = f[f.a == True][columns]
 print("percentage: ",100*len(a)/len(test),"%")
 print("number of anomalies: ", len(a))
 
+
 a.to_csv('point_anomalies.csv', index=False, encoding='utf-8')
+
