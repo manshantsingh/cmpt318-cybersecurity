@@ -12,4 +12,5 @@ def get_pickle_ready(filename):
 		pickle.dump(x, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 # get_pickle_ready('train')
-get_pickle_ready('test')
+# get_pickle_ready('test')
+get_pickle_ready('test2')

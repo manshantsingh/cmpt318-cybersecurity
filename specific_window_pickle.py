@@ -64,4 +64,5 @@ def split(s):
 	return [day_split, night_split]
 
 # summer_winter("train")
-summer_winter("test")
+# summer_winter("test")
+summer_winter("test2")
