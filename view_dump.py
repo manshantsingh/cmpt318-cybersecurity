@@ -15,7 +15,7 @@ print("using pickle file:", current_file_in_use)
 
 with open(current_file_in_use, 'rb') as handle:
     x = pickle.load(handle)
-    x = np.array(x)
+    # x = np.array(x)
 
 def p(t, arr=None):
 	m,a,b,c = t
