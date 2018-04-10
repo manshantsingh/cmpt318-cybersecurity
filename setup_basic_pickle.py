@@ -11,5 +11,5 @@ def get_pickle_ready(filename):
 	with open(filename+'.pickle', 'wb') as handle:
 		pickle.dump(x, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-get_pickle_ready('train')
+# get_pickle_ready('train')
 get_pickle_ready('test')

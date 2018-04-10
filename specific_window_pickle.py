@@ -49,7 +49,7 @@ def split(s):
 				if values.min() != max_val and values.max() != max_val:
 					continue
 				a.d += offset
-				a = a.set_index(['d'])
+				# a = a.set_index(['d'])
 				# a['m']= a.d.dt.hour*(60//SQUASH_SIZE) + a.d.dt.minute//SQUASH_SIZE
 				# a = a.groupby(a.m).mean().reset_index()
 				arr.append(a)
@@ -63,5 +63,5 @@ def split(s):
 
 	return [day_split, night_split]
 
-summer_winter("train")
+# summer_winter("train")
 summer_winter("test")
